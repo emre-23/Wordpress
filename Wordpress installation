@@ -1,0 +1,79 @@
+You can follow these steps to install and set up wordpress on your Centos7
+
+#yum install -y epel-release
+#yum install nginx
+#systemctl start nginx
+#systemctl status nginx
+#setenforce 0
+#vi /etc/sysconfig/selinux
+SELINUX=disabled && wq!
+#firewall-cmd --zone=public --permanent --add-service=http
+#firewall-cmd --zone=public --permanent --add-service=https
+#firewall-cmd --reload
+
+#sudo mkdir -p /var/www/emre.com/public_html
+#vi /var/www/emre.com/public_html/index.html
+#chmod 755 /var/www/emre.com/public_html
+#service nginx reload
+
+
+#yum -y install setroubleshoot setools net-tools
+#yum -y install mariadb mariadb-server
+#systemctl start mariad
+#systemctl enable mariadb
+#mysql_secure_installation
+#mysql -u root -p
+
+
+#mkdir -p /var/www/emre
+#chown -R nginx:nginx /var/www/emre
+#semanage fcontext -a -t httpd_config_t "/etc/nginx/conf.d(/.*)?"
+#restorecon -Rv /etc/nginx/conf.d
+#nginx -t
+
+#cd /var/www/emre
+#yum install -y wget
+#wget wordpress.org/latest.tar.gz
+#tar -xzvf latest.tar.gz
+#mv wordpress/* .
+#cp wp-config-sample.php wp-config.php
+#vim wp-config.php  //edit here as you whish
+#semanage fcontext -a -t httpd_sys_content_t "/var/www/emre(/.*)?"
+#restorecon -Rv /var/www/emre
+#cd /etc/nginx/conf.d/
+#vi emre.conf //added on subfolder with the same name
+#nginx -t
+#systemctl restart nginx
+
+
+#sudo yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+#yum --disablerepo="*" --enablerepo="remi-safe" list php[7-9][0-9].x86_64
+#yum install epel-release yum-utils
+#yum-config-manager --enable remi-php74
+#yum-config-manager --enable remi-php74
+
+
+Here we need to edit the file under /etc/php-fpm.d/www.conf
+#vi /etc/php-fpm.d/www.conf
+/*
+user = nginx
+...
+group = nginx
+...
+listen = /run/php-fpm/www.sock
+...
+listen.owner = nginx
+listen.group = nginx
+*/
+
+#systemctl start php-fpm
+#systemctl enable php-fpm
+
+If you want to visit your website
+http://your_ip_address
+in may case http://http://34.121.78.89/wp-admin/
+
+Then you can customize your wordpress website by blocks and themes.
+
+
+
